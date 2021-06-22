@@ -1,23 +1,35 @@
 import express from "express";
 import joi from "joi";
 import { UserModel } from "../mongoose/model/index";
+import signUpJoiSchema from "../mongoose/joiSchemas/signUp";
 import { IUser } from "../interface";
 
 export const signUpRoute = express.Router();
 
-signUpRoute.get("/", (req, res) => {
+signUpRoute.get("/", async (req, res) => {
   res.send("Sign Up Route");
 });
 
 signUpRoute.post("/", async (req, res): Promise<void> => {
   const { username, email, password } = req.body;
   const user: IUser = {
-    username,
     email,
+    username,
     password,
   };
 
   // will add joi here for validation.
+  const { error } = signUpJoiSchema.validate(req.body);
+  const errors: string[] = [];
+
+  if (error?.details) {
+    error.details.forEach((msg) => errors.push(msg.message));
+    res.status(400).send(errors);
+    return;
+  }
+
+  const userVerified = new UserModel(user);
+  res.send(userVerified);
 
   try {
     const result = new UserModel(user);
