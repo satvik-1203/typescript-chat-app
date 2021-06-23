@@ -19,4 +19,8 @@ export const signUpSchema = new Schema<IUser>({
     required: true,
     unique: true,
   },
+  friends: {
+    type: Number,
+    default: 0,
+  },
 });

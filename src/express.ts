@@ -1,5 +1,5 @@
 import express from "express";
-import { signUpRoute } from "./routes/index";
+import { signUpRoute, loginRouter } from "./routes/index";
 
 export const mainRouter = express.Router();
 
@@ -10,3 +10,4 @@ mainRouter.get("/", (req, res) => {
 });
 
 mainRouter.use("/signup", signUpRoute);
+mainRouter.use("/login", loginRouter);
