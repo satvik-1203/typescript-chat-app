@@ -28,9 +28,6 @@ signUpRoute.post("/", async (req, res): Promise<void> => {
     return;
   }
 
-  const userVerified = new UserModel(user);
-  res.send(userVerified);
-
   try {
     const result = new UserModel(user);
     await result.save();
