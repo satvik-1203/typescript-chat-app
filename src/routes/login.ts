@@ -21,5 +21,5 @@ loginRouter.post("/", async (req, res) => {
     process.env["JWT-SIGN"],
     { expiresIn: "1h" }
   );
-  res.send(token);
+  res.send({ token });
 });

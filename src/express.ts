@@ -1,12 +1,14 @@
 import express from "express";
 import { signUpRoute, loginRouter } from "./routes/index";
+import cors from "cors";
 
 export const mainRouter = express.Router();
 
+mainRouter.use(cors({ origin: "http://localhost:3000" }));
 mainRouter.use(express.json());
 
 mainRouter.get("/", (req, res) => {
-  res.send("Connected ");
+  res.send("Connected With Express");
 });
 
 mainRouter.use("/signup", signUpRoute);
