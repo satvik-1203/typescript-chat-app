@@ -20,6 +20,7 @@ export default (req: Request, res: Response, next: NextFunction) => {
     if (typeof token === "object") return;
     const payload = jwt.verify(token, process.env["JWT-SIGN"]);
     if (!payload) res.status(400).send("Invalid Token");
+    req.body["jwt-payload"] = payload;
     next();
   } catch {
     res.status(400).send("Invalid Token");
