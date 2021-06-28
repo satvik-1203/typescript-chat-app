@@ -3,7 +3,7 @@ import { auth } from "../middleware";
 require("dotenv").config();
 import jwt from "jsonwebtoken";
 
-const validateRoute = express.Router();
+export const validateRoute = express.Router();
 
 validateRoute.get("/", auth, (req, res) => {
   const payload: object = req.body["JWT-payload"];
