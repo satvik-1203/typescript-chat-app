@@ -6,7 +6,7 @@ require("dotenv").config();
 
 export default (req: Request, res: Response, next: NextFunction) => {
   //
-  const token: string | undefined | string[] = req.headers["jwt-token"];
+  const token: string | undefined | string[] = req.headers["jwt_token"];
   if (!token) return console.log("no token", req.headers);
 
   //
