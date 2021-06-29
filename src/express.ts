@@ -1,5 +1,10 @@
 import express from "express";
-import { signUpRoute, loginRouter, validateRoute } from "./routes/index";
+import {
+  signUpRoute,
+  loginRouter,
+  validateRoute,
+  accountRouter,
+} from "./routes/index";
 import cors from "cors";
 
 export const mainRouter = express.Router();
@@ -13,4 +18,5 @@ mainRouter.get("/", (req, res) => {
 
 mainRouter.use("/signup", signUpRoute);
 mainRouter.use("/login", loginRouter);
+mainRouter.use("/account", accountRouter);
 mainRouter.use("/validate", validateRoute);
