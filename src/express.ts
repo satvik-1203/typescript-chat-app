@@ -18,5 +18,5 @@ mainRouter.get("/", (req, res) => {
 
 mainRouter.use("/signup", signUpRoute);
 mainRouter.use("/login", loginRouter);
-mainRouter.use("/account/me", accountRouter);
+mainRouter.use("/account", accountRouter);
 mainRouter.use("/validate", validateRoute);
