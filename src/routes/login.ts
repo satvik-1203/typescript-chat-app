@@ -17,7 +17,7 @@ loginRouter.post("/", async (req, res) => {
   if (!process.env["JWT-SIGN"])
     return res.status(400).send("Unable to make a token");
   const token = jwt.sign(
-    { username: user.username, email: user.email },
+    { username: user.username, email: user.email, id: user._id },
     process.env["JWT-SIGN"],
     { expiresIn: "1h" }
   );
