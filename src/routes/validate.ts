@@ -10,7 +10,7 @@ validateRoute.get("/", auth, (req, res) => {
   if (!process.env["JWT-SIGN"])
     return res.status(400).send("error making the token");
   const token = jwt.sign(
-    { username: payload.username, email: payload.email, id: payload._id },
+    { username: payload.username, email: payload.email, id: payload.id },
     process.env["JWT-SIGN"],
     {
       expiresIn: "1h",
