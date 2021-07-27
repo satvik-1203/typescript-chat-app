@@ -2,13 +2,15 @@ console.clear();
 import express from "express";
 import { mainRouter } from "./express";
 import mongoose from "mongoose";
+import http from "http";
 import { Server } from "socket.io";
+import jwtAuth from "socketio-jwt-auth";
 
-const io = new Server(3002, {
-  cors: {
-    origin: ["http://localhost:3000"],
-  },
-});
+require("dotenv").config();
+
+const app = express();
+const server = http.createServer(app);
+app.use("/api", mainRouter);
 
 mongoose
   .connect("mongodb://localhost:27017/sdMain", {
@@ -20,20 +22,54 @@ mongoose
   })
   .catch((err) => console.log(err));
 
-const app = express();
-
-app.use("/api", mainRouter);
-
 // sockets
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+});
+
+// middleware
+io.use(
+  jwtAuth.authenticate(
+    {
+      secret: "BLANK", // required, used to verify the token's signature
+      algorithm: "HS256", // optional, default to be HS256
+      succeedWithoutToken: true,
+    },
+    (payload: any, done: any) => {
+      if (payload && payload.sub) {
+        return done(null, payload);
+      } else {
+        return done();
+      }
+    }
+  )
+);
+
+type RoomType = string | null;
 
 io.on("connection", (socket) => {
-  console.log(socket.id);
+  socket.emit("success", {
+    message: "success logged in",
+    data: socket.request,
+  });
 
-  socket.on("send message", (message: string) => {
-    socket.broadcast.emit("receive-message", message);
+  let currRoom: RoomType = null;
+
+  socket.on("change-room", (targetRoom: string) => {
+    socket.join(targetRoom);
+    currRoom = targetRoom;
+  });
+
+  socket.on("send-message", (message: string) => {
+    if (currRoom) {
+      socket.to(currRoom).emit("receive-message", message);
+    }
   });
 });
 
-app.listen(3001, () => {
+server.listen(3001, () => {
   console.log("Listening on port 3001...");
 });
