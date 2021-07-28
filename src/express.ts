@@ -4,6 +4,7 @@ import {
   loginRouter,
   validateRoute,
   accountRouter,
+  usersRoute,
 } from "./routes/index";
 import cors from "cors";
 
@@ -20,3 +21,4 @@ mainRouter.use("/signup", signUpRoute);
 mainRouter.use("/login", loginRouter);
 mainRouter.use("/account", accountRouter);
 mainRouter.use("/validate", validateRoute);
+mainRouter.use("/users", usersRoute);
