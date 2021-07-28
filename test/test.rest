@@ -1,8 +1,6 @@
-POST http://localhost:3001/api/login
+GET  http://localhost:3001/api/users/daxthehero
 Content-Type: application/json
 
 {
-    "email": "",
-    # "username": "daxthehero",
-    "password": ""
+    
 }

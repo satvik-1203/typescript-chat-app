@@ -37,6 +37,11 @@ signUpRoute.post("/", async (req, res): Promise<void> => {
     await result.save();
     res.send("Saved in the database");
   } catch (err) {
-    res.status(400).send(err);
+    if (err?.keyPattern) {
+      res.status(400).send("Email already exist");
+      return;
+    }
+    console.log(err);
+    res.status(502).send("couldn't make the customer");
   }
 });
