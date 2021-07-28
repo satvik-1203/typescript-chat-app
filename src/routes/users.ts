@@ -5,7 +5,7 @@ export const usersRoute = express.Router();
 
 usersRoute.get("/:name", (req, res) => {
   const userName = req.params.name;
-  const userRegex = `${userName}[sS]*.?`;
+  const userRegex = `${userName}[\s\S]*.?`;
 
   UserModel.find(
     { username: { $regex: userRegex, $options: "gim" } },
